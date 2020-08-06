@@ -42,18 +42,17 @@ def findInvoiceAndDueDates(rawText):
 #Find Account Number and Invoice Number
 def findAccountNumber(rawText):
     #Account Number Regexes
-    fullAccountNumberRegex = re.compile(r'AccountNumber\n(\d+)', re.IGNORECASE)
-    altAccountNumberRegex = re.compile(r'(\w+ )?Account ?Number(?=\d+\n)', re.IGNORECASE)
-    accountNumberRegex = re.compile(r'\d+\n')
+    fullAccountNumberRegex = re.compile(r'Account ?Number\n(\d+)', re.IGNORECASE)
+    accountNumFollowedByInvoiceNumExistsRegex = re.compile(r'(\w+ )?Account ?Number\n(?=(Invoice ?Number)\n)', re.IGNORECASE)
+    accountNumberRegex = re.compile(r'(^\d{8,10}\n$)')
 
     #Find the Account Number
     if fullAccountNumberRegex.findall(rawText):
         accountNumberMO = fullAccountNumberRegex.findall(rawText)
         print('Account Number: ' + accountNumberMO[0])
-    elif altAccountNumberRegex.findall(rawText):
-        altAccountNumberMO = altAccountNumberRegex.findall(rawText)
-        print('Account Number: ' + altAccountNumberMO)
-
+    # elif accountNumFollowedByInvoiceNumExistsRegex.findall(rawText):
+    #     altAccountNumMO = accountNumberRegex.findall(rawText)
+    #     print('Account Number: ' + altAccountNumMO)
     else:
         print('Account Number not found!')
 
