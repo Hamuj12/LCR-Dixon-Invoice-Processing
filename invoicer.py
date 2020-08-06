@@ -28,6 +28,7 @@ def findInvoiceAndDueDates(rawText):
     if invoiceANDdateRegex.findall(rawText):
         invoiceDateMO = invoiceANDdateRegex.findall(rawText)
         print('Invoice Date: ' + invoiceDateMO[0])
+    #Find the invoice dates if they are not bundled with the actual dates
     elif len(dateMO) >= 2 and invoiceMO:
         print('Invoice Date: ' + dateMO[0])
     else:
@@ -43,6 +44,7 @@ def findInvoiceAndDueDates(rawText):
 def findAccountNumber(rawText):
     #Account Number Regexes
     fullAccountNumberRegex = re.compile(r'Account ?Number\n(\d+)', re.IGNORECASE)
+
     accountNumFollowedByInvoiceNumExistsRegex = re.compile(r'(\w+ )?Account ?Number\n(?=(Invoice ?Number)\n)', re.IGNORECASE)
     accountNumberRegex = re.compile(r'(^\d{8,10}\n$)')
 
@@ -50,9 +52,10 @@ def findAccountNumber(rawText):
     if fullAccountNumberRegex.findall(rawText):
         accountNumberMO = fullAccountNumberRegex.findall(rawText)
         print('Account Number: ' + accountNumberMO[0])
-    # elif accountNumFollowedByInvoiceNumExistsRegex.findall(rawText):
-    #     altAccountNumMO = accountNumberRegex.findall(rawText)
-    #     print('Account Number: ' + altAccountNumMO)
+    #Find the account number if account number and invoice numbers exist but are not bundled with the actual numbers
+    elif accountNumFollowedByInvoiceNumExistsRegex.findall(rawText):
+        altAccountNumMO = accountNumberRegex.findall(rawText)
+        print('Account Number: ' + altAccountNumMO)
     else:
         print('Account Number not found!')
 
