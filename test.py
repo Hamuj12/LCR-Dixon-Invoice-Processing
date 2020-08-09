@@ -6,6 +6,8 @@ def test(invoice):
     findInvoiceAndDueDates(text)
     findAccountNumber(text)
     findInvoiceNumber(text)
+    findPONumber(text)
+    print('\n')
 
 test('BelBrands1.pdf')
 test('BelBrands2.pdf')

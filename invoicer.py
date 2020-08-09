@@ -69,6 +69,18 @@ def findInvoiceNumber(rawText):
     #find the invoice numbers
     if invoiceNumberRegex.findall(rawText):
         invoiceNumberMO = invoiceNumberRegex.findall(rawText)
-        print('Invoice Number: ' + invoiceNumberMO[0] + '\n')
+        print('Invoice Number: ' + invoiceNumberMO[0])
     else:
         print('Invoice Number not found!')
+
+#Find the PO number(s)
+def findPONumber(rawText):
+    #PO Number Regexes
+    poNumberRegex = re.compile(r'PO ?Number:?\n(\d+)', re.IGNORECASE)
+
+    #find the PO number(s)
+    if poNumberRegex.findall(rawText):
+        poNumberMO = poNumberRegex.findall(rawText)
+        print('PO Number: ' + poNumberMO[0])
+    else:
+        print('PO Number not found!')
