@@ -1,19 +1,15 @@
-<<<<<<< HEAD
+import unittest
 from invoicer import *
 
 def test(invoice):
     text = getRawText(invoice)
     findInvoiceAndDueDates(text)
     findAccountNumber(text)
+    findInvoiceNumber(text)
 
 test('BelBrands1.pdf')
-=======
-from invoicer import *
-
-def test(invoice):
-    text = getRawText(invoice)
-    findInvoiceAndDueDates(text)
-    findAccountNumber(text)
-
-test('BelBrands1.pdf')
->>>>>>> 4eee32d72d5fe004cbb72f9489542bdb605bd026
+test('BelBrands2.pdf')
+test('BelBrands3.pdf')
+test('BelBrands4.pdf')
+test('BelBrands5.pdf')
+test('invoice.pdf')

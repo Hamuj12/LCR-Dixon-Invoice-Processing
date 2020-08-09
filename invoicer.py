@@ -14,6 +14,7 @@ def getRawText(pdfFile):
     pdfFileObj.close()
     return text
 
+#find the invoice and due dates
 def findInvoiceAndDueDates(rawText):
     #Invoice Date and Due Date Regexes
     invoiceANDdateRegex = re.compile(r'Invoice ?Date\n([0-9/]+)', re.IGNORECASE)
@@ -25,11 +26,11 @@ def findInvoiceAndDueDates(rawText):
     dateRegex = re.compile(r'\d\d?/\d\d?/\d\d?')
     dateMO = dateRegex.findall(rawText)
 
-    #Find the Invoice Date(s)
+    #Find the Invoice Date(s) if they are listed after "Invoice Date"
     if invoiceANDdateRegex.findall(rawText):
         invoiceDateMO = invoiceANDdateRegex.findall(rawText)
         print('Invoice Date: ' + invoiceDateMO[0])
-    #Find the invoice dates if they are not bundled with the actual dates
+    #Find the invoice date(s) if they are not listed with their respective dates
     elif len(dateMO) >= 2 and invoiceMO:
         print('Invoice Date: ' + dateMO[0])
     else:
@@ -41,7 +42,7 @@ def findInvoiceAndDueDates(rawText):
     else:
         print('Due date not found!')
 
-#Find Account Number and Invoice Number
+#Find the Account Number
 def findAccountNumber(rawText):
     #Account Number Regexes
     fullAccountNumberRegex = re.compile(r'Account ?Number\n(\d+)', re.IGNORECASE)
@@ -49,38 +50,25 @@ def findAccountNumber(rawText):
     accountNumFollowedByInvoiceNumExistsRegex = re.compile(r'(\w+ )?Account ?Number\n(?=(Invoice ?Number)\n)', re.IGNORECASE)
     accountNumberRegex = re.compile(r'(^\d{8,10}\n$)')
 
-    #Find the Account Number
+    #Find the Account Number if it is listed after "Account number"
     if fullAccountNumberRegex.findall(rawText):
         accountNumberMO = fullAccountNumberRegex.findall(rawText)
         print('Account Number: ' + accountNumberMO[0])
-    #Find the account number if account number and invoice numbers exist but are not bundled with the actual numbers
+    #Find the account number if account number and invoice numbers exist but are not listed with their respective numbers
     elif accountNumFollowedByInvoiceNumExistsRegex.findall(rawText):
         altAccountNumMO = accountNumberRegex.findall(rawText)
         print('Account Number: ' + altAccountNumMO)
     else:
         print('Account Number not found!')
 
-#Test Cases
-text1 = getRawText('BelBrands1.pdf')
-findInvoiceAndDueDates(text1)
-findAccountNumber(text1)
+#Find the invoice numbers
+def findInvoiceNumber(rawText):
+    #invoice number Regexes
+    invoiceNumberRegex = re.compile(r'Invoice ?Number\n(\d+)', re.IGNORECASE)
 
-text2 = getRawText('BelBrands2.pdf')
-findInvoiceAndDueDates(text2)
-findAccountNumber(text2)
-
-text3 = getRawText('BelBrands3.pdf')
-findInvoiceAndDueDates(text3)
-findAccountNumber(text3)
-
-text4 = getRawText('BelBrands4.pdf')
-findInvoiceAndDueDates(text4)
-findAccountNumber(text4)
-
-text5 = getRawText('BelBrands5.pdf')
-findInvoiceAndDueDates(text5)
-findAccountNumber(text5)
-
-text6 = getRawText('invoice.pdf')
-findInvoiceAndDueDates(text6)
-findAccountNumber(text6)
+    #find the invoice numbers
+    if invoiceNumberRegex.findall(rawText):
+        invoiceNumberMO = invoiceNumberRegex.findall(rawText)
+        print('Invoice Number: ' + invoiceNumberMO[0] + '\n')
+    else:
+        print('Invoice Number not found!')
