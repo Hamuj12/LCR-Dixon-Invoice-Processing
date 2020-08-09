@@ -1,5 +1,6 @@
 import PyPDF4, os, re
 
+#parses through the pdf and outputs raw text
 def getRawText(pdfFile):
     text = ''
     os.chdir('c:\\users\\HM2-Laptop\\Documents')
