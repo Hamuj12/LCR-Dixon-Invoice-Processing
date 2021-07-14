@@ -1,13 +1,14 @@
 import PyPDF4
 import os
 import re
+import getpass
 
 
 # parses through the pdf file and outputs raw text
 
 def getRawText(pdfFile, pdfDir):
     text = ''
-    os.chdir('c:\\users\\HM2-Laptop\\Documents\\Invoice tests\\Bel Brands Invoices\\' + pdfDir)
+    os.chdir('c:\\users\\' + getpass.getuser() + '\\Documents\\LCR-Dixon-Invoice-Processing\\Invoice Tests\\Bel Brands Invoices\\' + pdfDir)
     pdfFileObj = open(pdfFile, 'rb')
     pdfReader = PyPDF4.PdfFileReader(pdfFileObj)
 
