@@ -1,17 +1,22 @@
 import unittest
 from invoicer import *
 
-def test(invoice):
-    text = getRawText(invoice)
+def test(invoice, fileDir):
+    # tests all regex functions and prints results
+
+    text = getRawText(invoice, fileDir)
     findInvoiceAndDueDates(text)
-    findAccountNumber(text)
-    findInvoiceNumber(text)
+    print('Account Number: ' + findAccountNumber(text))
+    print('Invoice Number: ' + findInvoiceNumber(text))
     findPONumber(text)
     print('\n')
 
-test('BelBrands1.pdf')
-test('BelBrands2.pdf')
-test('BelBrands3.pdf')
-test('BelBrands4.pdf')
-test('BelBrands5.pdf')
-test('invoice.pdf')
+
+# test GRAINGER and TOYOTA invoices
+
+test('Grainger1.pdf', 'Grainger')
+test('Grainger2.pdf', 'Grainger')
+test('Grainger3.pdf', 'Grainger')
+test('Grainger4.pdf', 'Grainger')
+test('Grainger5.pdf', 'Grainger')
+test('Toyota1.pdf', 'Toyota')
