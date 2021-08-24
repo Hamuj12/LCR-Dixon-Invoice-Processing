@@ -6,9 +6,9 @@ import getpass
 
 # parses through the pdf file and outputs raw text
 
-def getRawText(pdfFile, pdfDir):
+def getRawText(pdfFile):
     text = ''
-    os.chdir('c:\\users\\' + getpass.getuser() + '\\Documents\\LCR-Dixon-Invoice-Processing\\Invoice Tests\\Bel Brands Invoices\\' + pdfDir)
+    # os.chdir('c:\\users\\' + getpass.getuser() + '\\Documents\\LCR-Dixon-Invoice-Processing\\Invoice Tests\\Bel Brands Invoices\\' + pdfDir)
     pdfFileObj = open(pdfFile, 'rb')
     pdfReader = PyPDF4.PdfFileReader(pdfFileObj)
 
@@ -35,26 +35,32 @@ def findInvoiceAndDueDates(rawText):
     dateRegex = re.compile(r'\d\d?/\d\d?/\d\d?')
     dateMO = dateRegex.findall(rawText)
 
+    invDate = ''
+
     # Find the Invoice Date(s) if they are listed after "Invoice Date"
 
     if invoiceANDdateRegex.findall(rawText):
         invoiceDateMO = invoiceANDdateRegex.findall(rawText)
-        print ('Invoice Date: ' + invoiceDateMO[0])
+        # print ('Invoice Date: ' + invoiceDateMO[0])
+        invDate = invoiceDateMO[0]
     elif len(dateMO) >= 2 and invoiceMO:
 
     # Find the invoice date(s) if they are not listed with their respective dates
 
-        print ('Invoice Date: ' + dateMO[0])
+        # print ('Invoice Date: ' + dateMO[0])
+        invDate = dateMO[0]
     else:
         print ('Invoice Date not found!')
 
     # Find the Due Date(s)
 
     if dueDateRegex.findall(rawText) and len(dateMO) >= 2:
-        print ('Due Date: ' + dateMO[1])
+        # print ('Due Date: ' + dateMO[1])
+        dueDate =  dateMO[1]
     else:
         print ('Due date not found!')
 
+    return invDate, dueDate
 
 # Find the Account Number
 
@@ -118,7 +124,8 @@ def findPONumber(rawText):
 
     if fullPONumberRegex.findall(rawText):
         poNumberMO = fullPONumberRegex.findall(rawText)
-        print ('PO Number: ' + poNumberMO[0])
+        # print ('PO Number: ' + poNumberMO[0])
+        return poNumberMO[0]
 
     elif poNumberFollowedByWordsNotPONumberRegex.findall(rawText):
         # find the PO Number(s) if numbers are not listed after the identifier
@@ -132,8 +139,8 @@ def findPONumber(rawText):
         removeBillNumbers(rawText, altPONumberMO)
         removeBillNumbers(rawText, altPONumberMO)
 
-        print ('PO Number: ' + altPONumberMO[1])
-        return altPONumberMO
+        # print ('PO Number: ' + altPONumberMO[1])
+        return altPONumberMO[1]
     else:
         print ('PO Number not found!')
 
